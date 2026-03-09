@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- 输入界面 -->
+  <div id="inputSection">
+    <div style="margin-bottom: 12px; font-weight: bold; color: #333;">
+      📝 输入自定义分析要求（可选）
+    </div>
+    
+    <textarea 
+      id="customPrompt" 
+      placeholder="例如：请重点关注行业趋势和投资建议..."
+      rows="4"
+      style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 4px; font-family: Arial, sans-serif; font-size: 14px;"
+    ></textarea>
+    
+    <div id="countdown" style="margin-top: 10px; text-align: center; font-size: 14px; color: #666;">
+      ⏱️ <span id="countdownNumber">3</span>秒内点击输入框可自定义分析要求，否则自动使用默认分析...
+    </div>
+    
+    <button 
+      id="confirmBtn" 
+      style="display: none; margin-top: 12px; width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;"
+    >
+      🚀 开始分析
+    </button>
+    
+    <button 
+      id="skipBtn" 
+      style="display: none; margin-top: 8px; width: 100%; padding: 8px; background-color: #f0f0f0; color: #666; border: 1px solid #ddd; border-radius: 4px; cursor: pointer;"
+    >
+      使用默认分析（不输入自定义要求）
+    </button>
+  </div>
+
+  <!-- 分析界面 -->
+  <div id="analysisSection" style="display: none;">
+    <div id="loading" style="margin-top:10px;">
+      网页智能分析中...
+    </div>
+
+    <div id="summary" style="margin-top:12px;"></div>
+  </div>
+
+  <!-- Markdown 渲染库 -->
+  <script src="marked.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>

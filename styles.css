@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 12px;
+    width: 760px;
+    min-height: 1688px;
+    box-sizing: border-box;
+}
+
+#summary {
+    max-height: 1688px;
+    overflow-y: auto;
+}
+
+h1,
+h2,
+h3 {
+    margin-top: 14px;
+}
+
+ul {
+    padding-left: 18px;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* 输入界面样式 */
+#inputSection {
+    margin-bottom: 15px;
+}
+
+#customPrompt {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    resize: vertical;
+}
+
+#customPrompt:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+#countdown {
+    font-weight: 500;
+}
+
+#countdownNumber {
+    font-weight: bold;
+    color: #ff6b6b;
+    transition: color 0.3s ease;
+}
+
+#confirmBtn {
+    transition: background-color 0.2s ease;
+}
+
+#confirmBtn:hover {
+    background-color: #45a049;
+}
+
+#confirmBtn:active {
+    background-color: #3d8b40;
+}
+
+#skipBtn {
+    transition: background-color 0.2s ease;
+}
+
+#skipBtn:hover {
+    background-color: #e0e0e0;
+}
+
+#skipBtn:active {
+    background-color: #d0d0d0;
+}
