@@ -1,7 +1,7 @@
 function getConfig() {
   return new Promise((resolve) => {
     chrome.storage.sync.get(
-      ["baseUrl", "apiKey", "temperature"],
+      ["baseUrl", "apiKey", "model1", "model2", "model3", "temperature"],
       (items) => resolve(items)
     );
   });
@@ -20,7 +20,7 @@ async function handleSummary(request, sendResponse) {
 
   try {
 
-    const { baseUrl, apiKey, temperature } = await getConfig();
+    const { baseUrl, apiKey, model1, model2, model3, temperature } = await getConfig();
 
     if (!baseUrl || !apiKey) {
       sendResponse({ summary: "请先配置 Base URL 和 API Key" });
@@ -30,6 +30,7 @@ async function handleSummary(request, sendResponse) {
     const content = request.content;
     const url = request.url;
     const customPrompt = request.customPrompt;
+    const selectedModel = request.selectedModel;
     const ONE_HOUR = 60 * 60 * 1000;
 
     if (!content) {
@@ -111,6 +112,24 @@ ${content.slice(0, 12000)}
         `${customPrompt}\n\n网页内容：\n${content.slice(0, 12000)}` : 
         prompt;
 
+      // Determine which model to use
+      let modelToUse;
+      if (selectedModel === "model1") {
+        modelToUse = model1;
+      } else if (selectedModel === "model2") {
+        modelToUse = model2;
+      } else if (selectedModel === "model3") {
+        modelToUse = model3;
+      } else {
+        // Default to model1 if no selection or invalid selection
+        modelToUse = model1;
+      }
+      
+      // Fallback to hardcoded default if no model configured
+      if (!modelToUse) {
+        modelToUse = "deepseek-ai/DeepSeek-V3.2";
+      }
+
       const res = await fetch(`${cleanBaseUrl}/chat/completions`, {
         method: "POST",
         headers: {
@@ -118,7 +137,7 @@ ${content.slice(0, 12000)}
           "Authorization": `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-          model: "deepseek-ai/DeepSeek-V3.2",
+          model: modelToUse,
           messages: [{ role: "user", content: finalPrompt }],
           temperature: temperature ?? 0.7
         })

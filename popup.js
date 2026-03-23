@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const countdownNumber = document.getElementById("countdownNumber");
   const confirmBtn = document.getElementById("confirmBtn");
   const skipBtn = document.getElementById("skipBtn");
+  const modelSelect = document.getElementById("modelSelect");
 
   // 状态变量
   let countdown = 3;
@@ -21,6 +22,34 @@ document.addEventListener("DOMContentLoaded", () => {
   // 初始化
   summaryDiv.innerHTML = "";
   loadingDiv.style.display = "block";
+
+  // 加载模型配置并更新下拉菜单
+  function loadModelConfig() {
+    chrome.storage.sync.get(["model1", "model2", "model3"], (items) => {
+      // 更新下拉菜单选项文本
+      const option1 = modelSelect.options[0];
+      const option2 = modelSelect.options[1];
+      const option3 = modelSelect.options[2];
+      
+      if (items.model1) {
+        option1.text = `模型 1: ${items.model1}`;
+      } else {
+        option1.text = "模型 1 (未配置)";
+      }
+      
+      if (items.model2) {
+        option2.text = `模型 2: ${items.model2}`;
+      } else {
+        option2.text = "模型 2 (未配置)";
+      }
+      
+      if (items.model3) {
+        option3.text = `模型 3: ${items.model3}`;
+      } else {
+        option3.text = "模型 3 (未配置)";
+      }
+    });
+  }
 
   // 启动倒计时
   function startCountdown() {
@@ -57,7 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
           action: "summarizeDirect", 
           content: pageText, 
           url: currentTab.url,
-          customPrompt: customPrompt
+          customPrompt: customPrompt,
+          selectedModel: modelSelect.value
         },
         (response) => {
 
@@ -149,6 +179,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // 主初始化函数
   async function init() {
     try {
+      // 加载模型配置
+      loadModelConfig();
+      
       // 获取当前活动标签页
       const [tab] = await chrome.tabs.query({
         active: true,
